@@ -52,16 +52,22 @@ export function ThemeToggle() {
       overlay.style.transform = `scale(${scale})`;
     });
 
-    // Switch theme only after overlay fully covers the screen
+    // Switch theme after overlay fully covers the screen
     setTimeout(() => {
       setTheme(nextTheme);
-    }, 400);
 
-    // Remove overlay after theme has applied
-    setTimeout(() => {
-      overlay.remove();
-      setIsAnimating(false);
-    }, 450);
+      // Give the browser time to repaint with new theme, then fade out
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          overlay.style.transition = "opacity 0.3s ease";
+          overlay.style.opacity = "0";
+          setTimeout(() => {
+            overlay.remove();
+            setIsAnimating(false);
+          }, 300);
+        });
+      });
+    }, 420);
   }, [theme, setTheme, isAnimating]);
 
   if (!mounted) {
