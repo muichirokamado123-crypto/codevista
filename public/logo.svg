@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48" fill="none">
+  <g transform="translate(0, 4)">
+    <!-- Code brackets forming V shape -->
+    <path d="M4 8L16 20L4 32" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M36 8L24 20L36 32" stroke="#0ea5e9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Dot in center -->
+    <circle cx="20" cy="20" r="2.5" fill="#2563eb"/>
+  </g>
+  <!-- CodeVista text -->
+  <text x="48" y="33" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="700" fill="#1e293b">
+    <tspan fill="#2563eb">Code</tspan><tspan fill="#1e293b">Vista</tspan>
+  </text>
+</svg>
