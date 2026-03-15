@@ -18,44 +18,45 @@ export function ThemeToggle() {
 
     const nextTheme = theme === "dark" ? "light" : "dark";
     const rect = buttonRef.current.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
 
-    const maxRadius = Math.ceil(
-      Math.sqrt(
-        Math.max(x, window.innerWidth - x) ** 2 +
-        Math.max(y, window.innerHeight - y) ** 2
-      )
+    // Create a small circle that scales up to cover the screen
+    const size = 20;
+    const maxDistance = Math.sqrt(
+      Math.max(cx, window.innerWidth - cx) ** 2 +
+      Math.max(cy, window.innerHeight - cy) ** 2
     );
+    const scale = Math.ceil((maxDistance * 2) / size);
 
     const overlay = document.createElement("div");
     overlay.style.cssText = `
       position: fixed;
-      inset: 0;
+      width: ${size}px;
+      height: ${size}px;
+      left: ${cx - size / 2}px;
+      top: ${cy - size / 2}px;
       z-index: 9999;
       pointer-events: none;
+      border-radius: 50%;
       background: ${nextTheme === "dark" ? "#0f172a" : "#ffffff"};
-      clip-path: circle(0px at ${x}px ${y}px);
-      will-change: clip-path;
+      transform: scale(0);
+      will-change: transform;
     `;
     document.body.appendChild(overlay);
 
     setIsAnimating(true);
-
-    // Switch theme immediately (hidden behind overlay at start)
     setTheme(nextTheme);
 
-    // Animate the reveal
     requestAnimationFrame(() => {
-      overlay.style.transition = "clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
-      overlay.style.clipPath = `circle(${maxRadius}px at ${x}px ${y}px)`;
+      overlay.style.transition = "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)";
+      overlay.style.transform = `scale(${scale})`;
     });
 
-    // Remove overlay after animation
     setTimeout(() => {
       overlay.remove();
       setIsAnimating(false);
-    }, 550);
+    }, 500);
   }, [theme, setTheme, isAnimating]);
 
   if (!mounted) {
