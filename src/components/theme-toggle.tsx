@@ -1,15 +1,68 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => setMounted(true), []);
+
+  const handleToggle = useCallback(() => {
+    if (isAnimating || !buttonRef.current) return;
+
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    const rect = buttonRef.current.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    // Calculate the max radius needed to cover the entire screen from the button
+    const maxRadius = Math.ceil(
+      Math.sqrt(
+        Math.max(x, window.innerWidth - x) ** 2 +
+        Math.max(y, window.innerHeight - y) ** 2
+      )
+    );
+
+    // Create the overlay
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      pointer-events: none;
+      background: ${nextTheme === "dark" ? "#0f172a" : "#ffffff"};
+      clip-path: circle(0px at ${x}px ${y}px);
+      transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    `;
+    document.body.appendChild(overlay);
+
+    setIsAnimating(true);
+
+    // Trigger the expansion
+    requestAnimationFrame(() => {
+      overlay.style.clipPath = `circle(${maxRadius}px at ${x}px ${y}px)`;
+    });
+
+    // Switch theme midway through the animation
+    setTimeout(() => {
+      setTheme(nextTheme);
+    }, 300);
+
+    // Remove overlay after animation completes
+    setTimeout(() => {
+      overlay.remove();
+      setIsAnimating(false);
+    }, 650);
+  }, [theme, setTheme, isAnimating]);
 
   if (!mounted) {
     return <div className="h-9 w-9" />;
@@ -19,7 +72,8 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      ref={buttonRef}
+      onClick={handleToggle}
       className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background transition-colors hover:bg-muted"
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
