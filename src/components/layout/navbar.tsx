@@ -26,7 +26,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="flex items-center gap-8 max-md:hidden">
+        <ul className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
@@ -44,25 +44,23 @@ export function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTA + Theme Toggle */}
-        <div className="flex items-center gap-3 max-md:hidden">
+        {/* Right side */}
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           <Link
             href="/contact"
-            className="inline-flex rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="hidden rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 md:inline-flex"
           >
             Get in Touch
           </Link>
+          <button
+            className="inline-flex items-center justify-center rounded-md p-2 text-foreground md:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
-
-        {/* Mobile Toggle */}
-        <button
-          className="inline-flex items-center justify-center rounded-md p-2 text-foreground md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
       </nav>
 
       {/* Mobile Menu */}
@@ -86,16 +84,13 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="mt-3 flex items-center gap-3">
-            <ThemeToggle />
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="block w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Get in Touch
-            </Link>
-          </div>
+          <Link
+            href="/contact"
+            onClick={() => setMobileOpen(false)}
+            className="mt-3 block w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Get in Touch
+          </Link>
         </div>
       )}
     </header>
