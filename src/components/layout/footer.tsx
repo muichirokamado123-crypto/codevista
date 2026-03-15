@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { COMPANY, NAV_LINKS, SERVICES } from "@/lib/constants";
 
@@ -10,7 +11,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/logo-icon.svg" alt="CodeVista" className="h-8 w-8" />
+              <Image src="/logo-icon.svg" alt="CodeVista" width={32} height={32} className="h-8 w-8" />
               <span className="text-lg font-bold text-foreground">
                 <span className="text-primary">Code</span>Vista
               </span>
