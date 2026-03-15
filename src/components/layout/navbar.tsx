@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+const basePath = "/codevista";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -17,7 +18,7 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo-icon.svg" alt="CodeVista" width={36} height={36} className="h-9 w-9" />
+          <img src={`${basePath}/logo-icon.svg`} alt="CodeVista" className="h-9 w-9" />
           <span className="text-xl font-bold text-foreground">
             <span className="text-primary">Code</span>Vista
           </span>
