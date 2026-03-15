@@ -109,19 +109,21 @@ export function ThemeToggle() {
   const isDark = theme === "dark";
 
   return (
-    <div className="flex items-center gap-2">
+    <>
+      {/* Undo toast at bottom center */}
       <AnimatePresence>
         {showUndo && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.5, x: 10 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 0.5, x: 10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             onClick={handleUndo}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background hover:bg-muted"
+            className="fixed bottom-6 left-1/2 z-[9999] flex -translate-x-1/2 items-center gap-2 rounded-full border border-border bg-background px-4 py-2.5 shadow-lg hover:bg-muted"
             aria-label="Undo theme change"
           >
-            <Undo2 className="h-3.5 w-3.5 text-foreground" />
+            <Undo2 className="h-4 w-4 text-foreground" />
+            <span className="text-sm font-medium text-foreground">Undo</span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -156,6 +158,6 @@ export function ThemeToggle() {
           )}
         </AnimatePresence>
       </button>
-    </div>
+    </>
   );
 }
