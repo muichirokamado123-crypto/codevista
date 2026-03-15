@@ -46,17 +46,22 @@ export function ThemeToggle() {
     document.body.appendChild(overlay);
 
     setIsAnimating(true);
-    setTheme(nextTheme);
 
     requestAnimationFrame(() => {
-      overlay.style.transition = "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)";
+      overlay.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
       overlay.style.transform = `scale(${scale})`;
     });
 
+    // Switch theme only after overlay fully covers the screen
+    setTimeout(() => {
+      setTheme(nextTheme);
+    }, 400);
+
+    // Remove overlay after theme has applied
     setTimeout(() => {
       overlay.remove();
       setIsAnimating(false);
-    }, 500);
+    }, 450);
   }, [theme, setTheme, isAnimating]);
 
   if (!mounted) {
