@@ -26,7 +26,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="flex items-center gap-8 max-md:hidden">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
@@ -49,12 +49,12 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="hidden rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 md:inline-flex"
+            className="inline-flex rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 max-md:hidden"
           >
             Get in Touch
           </Link>
           <button
-            className="inline-flex items-center justify-center rounded-md p-2 text-foreground md:hidden"
+            className="inline-flex items-center justify-center rounded-md p-2 text-foreground max-md:inline-flex md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
