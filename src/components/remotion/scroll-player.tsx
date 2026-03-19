@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import { NecklaceScroll } from "@/remotion/compositions/NecklaceScroll";
 
@@ -14,6 +14,7 @@ export function ScrollPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   const handleScroll = useCallback(() => {
     if (rafRef.current) return;
@@ -63,33 +64,54 @@ export function ScrollPlayer() {
 
   return (
     <div ref={sectionRef} style={{ height: "500vh" }}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Native video element — background layer */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+        {/* Native video — background, always visible */}
         <video
           ref={videoRef}
           muted
           playsInline
           preload="auto"
-          className="absolute inset-0 h-full w-full object-cover"
+          onLoadedMetadata={() => setVideoReady(true)}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 1,
+          }}
           src="/codevista/neckless%20video.mp4"
         />
 
-        {/* Remotion Player — overlay animations layer (transparent bg) */}
-        <div className="absolute inset-0">
-          <Player
-            ref={playerRef}
-            component={NecklaceScroll}
-            compositionWidth={COMPOSITION_WIDTH}
-            compositionHeight={COMPOSITION_HEIGHT}
-            durationInFrames={DURATION_IN_FRAMES}
-            fps={FPS}
-            style={{ width: "100%", height: "100%" }}
-            controls={false}
-            autoPlay={false}
-            loop={false}
-            acknowledgeRemotionLicense
-          />
-        </div>
+        {/* Remotion Player — overlay for text animations */}
+        {videoReady && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          >
+            <Player
+              ref={playerRef}
+              component={NecklaceScroll}
+              compositionWidth={COMPOSITION_WIDTH}
+              compositionHeight={COMPOSITION_HEIGHT}
+              durationInFrames={DURATION_IN_FRAMES}
+              fps={FPS}
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: "transparent",
+              }}
+              controls={false}
+              autoPlay={false}
+              loop={false}
+              acknowledgeRemotionLicense
+            />
+          </div>
+        )}
       </div>
     </div>
   );
