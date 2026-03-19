@@ -7,7 +7,6 @@ import {
   Sequence,
   Easing,
 } from "remotion";
-import { Video } from "@remotion/media";
 import { COLORS } from "../utils/theme";
 
 export const NecklaceScroll: React.FC = () => {
@@ -16,18 +15,7 @@ export const NecklaceScroll: React.FC = () => {
   const s = height / 1080;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
-      {/* Video layer — fills entire frame */}
-      <Video
-        src="/codevista/neckless%20video.mp4"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-        muted
-      />
-
+    <AbsoluteFill style={{ backgroundColor: "transparent" }}>
       {/* Dark gradient overlay for readability */}
       <AbsoluteFill
         style={{
@@ -88,7 +76,6 @@ const LeftContent: React.FC<{
     config: { damping: 200 },
   });
 
-  // Fade out at end
   const fadeOut = interpolate(frame, [90, 120], [1, 0], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
@@ -102,11 +89,7 @@ const LeftContent: React.FC<{
         opacity: fadeOut,
       }}
     >
-      <div
-        style={{
-          maxWidth: 500 * s,
-        }}
-      >
+      <div style={{ maxWidth: 500 * s }}>
         <p
           style={{
             fontSize: 14 * s,
@@ -166,7 +149,7 @@ const RightContent: React.FC<{
   fps: number;
   s: number;
   width: number;
-}> = ({ frame, fps, s, width }) => {
+}> = ({ frame, fps, s }) => {
   const features = [
     { label: "18K Gold", value: "Plated" },
     { label: "Handcrafted", value: "40+ Hours" },
@@ -174,7 +157,6 @@ const RightContent: React.FC<{
     { label: "Lifetime", value: "Warranty" },
   ];
 
-  // Fade out at end
   const fadeOut = interpolate(frame, [90, 120], [1, 0], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
@@ -253,7 +235,6 @@ const StoryContent: React.FC<{
     '"We don\'t just make jewelry — we create heirlooms."',
   ];
 
-  // Fade out at end
   const fadeOut = interpolate(frame, [90, 120], [1, 0], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
@@ -299,7 +280,7 @@ const StoryContent: React.FC<{
               key={i}
               style={{
                 fontSize: i === 2 ? 20 * s : 16 * s,
-                fontWeight: i === 2 ? 300 : 300,
+                fontWeight: 300,
                 fontStyle: i === 2 ? "italic" : "normal",
                 color: i === 2 ? COLORS.gold : COLORS.textSecondary,
                 lineHeight: 1.7,
@@ -322,7 +303,7 @@ const CTAContent: React.FC<{
   fps: number;
   s: number;
   width: number;
-}> = ({ frame, fps, s, width }) => {
+}> = ({ frame, fps, s }) => {
   const entryProgress = spring({
     frame,
     fps,

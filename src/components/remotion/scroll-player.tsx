@@ -11,6 +11,7 @@ const COMPOSITION_HEIGHT = 1080;
 
 export function ScrollPlayer() {
   const playerRef = useRef<PlayerRef>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
@@ -34,9 +35,16 @@ export function ScrollPlayer() {
         Math.max(-sectionTop / scrollableHeight, 0),
         1
       );
-      const frame = Math.round(progress * (DURATION_IN_FRAMES - 1));
 
+      // Sync Remotion Player frame
+      const frame = Math.round(progress * (DURATION_IN_FRAMES - 1));
       playerRef.current?.seekTo(frame);
+
+      // Sync native video currentTime
+      const video = videoRef.current;
+      if (video && video.duration) {
+        video.currentTime = progress * video.duration;
+      }
     });
   }, []);
 
@@ -56,26 +64,32 @@ export function ScrollPlayer() {
   return (
     <div ref={sectionRef} style={{ height: "500vh" }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <Player
-          ref={playerRef}
-          component={NecklaceScroll}
-          compositionWidth={COMPOSITION_WIDTH}
-          compositionHeight={COMPOSITION_HEIGHT}
-          durationInFrames={DURATION_IN_FRAMES}
-          fps={FPS}
-          style={{ width: "100%", height: "100%" }}
-          controls={false}
-          autoPlay={false}
-          loop={false}
-          acknowledgeRemotionLicense
-          renderLoading={() => (
-            <div className="flex h-full w-full items-center justify-center bg-black">
-              <p className="text-sm tracking-[0.3em] text-[#D4AF37] uppercase">
-                Loading...
-              </p>
-            </div>
-          )}
+        {/* Native video element — background layer */}
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/codevista/neckless%20video.mp4"
         />
+
+        {/* Remotion Player — overlay animations layer (transparent bg) */}
+        <div className="absolute inset-0">
+          <Player
+            ref={playerRef}
+            component={NecklaceScroll}
+            compositionWidth={COMPOSITION_WIDTH}
+            compositionHeight={COMPOSITION_HEIGHT}
+            durationInFrames={DURATION_IN_FRAMES}
+            fps={FPS}
+            style={{ width: "100%", height: "100%" }}
+            controls={false}
+            autoPlay={false}
+            loop={false}
+            acknowledgeRemotionLicense
+          />
+        </div>
       </div>
     </div>
   );
