@@ -5,7 +5,6 @@ import {
   interpolate,
   spring,
   Sequence,
-  staticFile,
   Easing,
 } from "remotion";
 import { Video } from "@remotion/media";
@@ -20,7 +19,7 @@ export const NecklaceScroll: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
       {/* Video layer — fills entire frame */}
       <Video
-        src={staticFile("neckless video.mp4")}
+        src="/codevista/neckless%20video.mp4"
         style={{
           width: "100%",
           height: "100%",
