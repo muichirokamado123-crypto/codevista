@@ -93,6 +93,15 @@ export function ScrollPlayer() {
               pointerEvents: "none",
             }}
           >
+            <style>{`
+              .remotion-overlay-player,
+              .remotion-overlay-player > div,
+              .remotion-overlay-player > div > div,
+              .remotion-overlay-player > div > div > div {
+                background: transparent !important;
+                background-color: transparent !important;
+              }
+            `}</style>
             <Player
               ref={playerRef}
               component={NecklaceScroll}
@@ -100,6 +109,7 @@ export function ScrollPlayer() {
               compositionHeight={COMPOSITION_HEIGHT}
               durationInFrames={DURATION_IN_FRAMES}
               fps={FPS}
+              className="remotion-overlay-player"
               style={{
                 width: "100%",
                 height: "100%",
