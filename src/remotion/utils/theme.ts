@@ -3,6 +3,6 @@ export const COLORS = {
   darkGold: "#B8860B",
   lightGold: "#F4D03F",
   background: "#000000",
-  textPrimary: "#FAFAFA",
-  textSecondary: "rgba(255, 255, 255, 0.6)",
+  textPrimary: "#000000",
+  textSecondary: "rgba(0, 0, 0, 0.6)",
 } as const;

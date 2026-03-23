@@ -16,11 +16,11 @@ export const NecklaceScroll: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "transparent" }}>
-      {/* Dark gradient overlay for readability */}
+      {/* Light gradient overlay for readability */}
       <AbsoluteFill
         style={{
           background:
-            "linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.7) 100%)",
+            "linear-gradient(to right, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0.7) 100%)",
         }}
       />
 
