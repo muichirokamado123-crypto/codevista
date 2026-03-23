@@ -356,12 +356,14 @@ const CTAContent: React.FC<{
           style={{
             marginTop: 24 * s,
             padding: `${14 * s}px ${48 * s}px`,
-            border: `1px solid ${COLORS.gold}`,
-            color: COLORS.gold,
+            backgroundColor: "#000000",
+            color: "#FFFFFF",
             fontSize: 14 * s,
-            fontWeight: 300,
+            fontWeight: 400,
             letterSpacing: "0.25em",
             textTransform: "uppercase",
+            borderRadius: 4 * s,
+            border: "none",
           }}
         >
           Shop Now
